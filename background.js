@@ -1,5 +1,5 @@
 function registerCallback(registrationId) {
-  console.log(registrationId);
+  alert('RegId:' + registrationId);
   if (chrome.runtime.lastError) {
     // When the registration fails, handle the error and retry the
     // registration later.
@@ -22,7 +22,6 @@ function sendRegistrationId(callback) {
 }
 
 chrome.runtime.onStartup.addListener(function() {
-  console.log('asdfasdf');
   chrome.storage.local.get("registered", function(result) {
     // If already registered, bail out.
     if (result["registered"])
