@@ -37,5 +37,5 @@ chrome.runtime.onStartup.addListener(function() {
 });
 
 chrome.gcm.onMessage.addListener(function(message){
-    alert(message.data.msg);
+    var noti = new Notification('Message from Server', {body: message.data.msg});
 });

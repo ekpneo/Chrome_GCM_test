@@ -6,7 +6,7 @@
     "version": "1.0",
 
     "permissions": [
-        "http://*/*", "gcm", "background", "storage"
+        "http://*/*", "notifications", "gcm", "background", "storage"
     ],
     "background": {
         "scripts": ["jquery.min.js", "background.js"]
