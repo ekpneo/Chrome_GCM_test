@@ -1,0 +1,14 @@
+{
+    "manifest_version": 2,
+
+    "name": "GCM Control",
+    "description": "SF IS THE MOST GAY CITY IN THE WORLD",
+    "version": "1.0",
+
+    "permissions": [
+        "http://*/*", "gcm", "background", "storage"
+    ],
+    "background": {
+        "scripts": ["background.js"]
+    }
+}
