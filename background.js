@@ -1,5 +1,5 @@
 function registerCallback(registrationId) {
-  alert('RegId:' + registrationId);
+  alert('reg_id: ' + registrationId);
   if (chrome.runtime.lastError) {
     // When the registration fails, handle the error and retry the
     // registration later.
@@ -30,7 +30,7 @@ chrome.runtime.onStartup.addListener(function() {
     // Up to 100 senders are allowed.
     $.get('/config.json', function(data){
         var config = JSON.parse(data);
-        var senderIds = [''+config['senderId']];
+        var senderIds = [''+config['sender_id']];
         chrome.gcm.register(senderIds, registerCallback);
     });
   });
