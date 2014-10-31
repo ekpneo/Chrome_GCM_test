@@ -9,6 +9,6 @@
         "http://*/*", "gcm", "background", "storage"
     ],
     "background": {
-        "scripts": ["background.js"]
+        "scripts": ["jquery.min.js", "background.js"]
     }
 }
