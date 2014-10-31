@@ -28,11 +28,20 @@ chrome.runtime.onStartup.addListener(function() {
       return;
 
     // Up to 100 senders are allowed.
-    var senderIds = ["799960529554"];
-    chrome.gcm.register(senderIds, registerCallback);
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', chrome.extension.getURL('/config.json'), true);
+    xhr.onreadystatechange = function() {
+        if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+            var data = xhr.responseText;
+            var config = JSON.parse(data);
+            var senderIds = [''+config['senderId']];
+            chrome.gcm.register(senderIds, registerCallback);
+        }
+    }
+    xhr.send();
   });
 });
 
 chrome.gcm.onMessage.addListener(function(message){
-    alert(message);
+    alert(message.data.msg);
 });
