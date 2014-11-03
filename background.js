@@ -1,41 +1,48 @@
+// A global variable that contains the server URL 
+var url;
+
 function registerCallback(registrationId) {
-  alert('reg_id: ' + registrationId);
   if (chrome.runtime.lastError) {
-    // When the registration fails, handle the error and retry the
-    // registration later.
+    alert('Runtime Error:' + chrome.runtime.lastError.message);
     return;
   }
-
-  // Send the registration ID to your application server.
-  sendRegistrationId(function(succeed) {
-    // Once the registration ID is received by your server,
-    // set the flag such that register will not be invoked
-    // next time when the app starts up.
+  sendRegistrationId(registrationId, function(succeed) {
     if (succeed)
       chrome.storage.local.set({registered: true});
   });
 }
 
-function sendRegistrationId(callback) {
-  // Send the registration ID to your application server
-  // in a secure way.
+function sendRegistrationId(registrationId, callback) {
+  var fullURL = url + '?reg_id=' + registrationId;
+  $.get(fullURL, callback).fail(function(){
+    alert('Failed to send the info to the server');
+  });
 }
 
 chrome.runtime.onStartup.addListener(function() {
   chrome.storage.local.get("registered", function(result) {
-    // If already registered, bail out.
-    if (result["registered"])
+    if (result["registered"]){
+      console.log('* reg_id already registered.');
+      console.log('* If you want to re-register, type "chrome.storage.local.set({registered: false});" in Insepctor.');
       return;
+    }
 
-    // Up to 100 senders are allowed.
     $.get('/config.json', function(data){
         var config = JSON.parse(data);
         var senderIds = [''+config['sender_id']];
+        url = config['url']; 
         chrome.gcm.register(senderIds, registerCallback);
     });
   });
 });
 
 chrome.gcm.onMessage.addListener(function(message){
-    var noti = new Notification('Message from Server', {body: message.data.msg});
+    chrome.notifications.create('', {
+        'type': 'basic',
+        'iconUrl': '/' + message.data.icon + '.png',
+        'title': 'Message from Server',
+        'message': message.data.msg
+    }, function(){
+        console.log('A message has been received.');   
+    });
 });
