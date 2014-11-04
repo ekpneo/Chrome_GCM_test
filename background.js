@@ -12,7 +12,11 @@ function registerCallback(registrationId) {
 }
 
 function sendRegistrationId(registrationId, callback) {
-  var fullURL = url + '?reg_id=' + registrationId;
+	var fullURL;
+	if (url[url.length - 1] !== '/')
+		fullURL = url + '/';
+		
+  fullURL += 'add_reg_id?reg_id=' + registrationId;
   $.get(fullURL, callback).fail(function(){
     alert('Failed to send the info to the server');
   });
