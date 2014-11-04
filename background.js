@@ -52,7 +52,7 @@ chrome.runtime.onStartup.addListener(function() {
 chrome.gcm.onMessage.addListener(function(message){
     chrome.notifications.create('', {
         'type': 'basic',
-        'iconUrl': '/' + message.data.icon + '.png',
+        'iconUrl': '/images/' + message.data.icon + '.png',
         'title': 'Message from Server',
         'message': message.data.msg
     }, function(){
