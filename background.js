@@ -35,7 +35,7 @@ var addAudio = function() {
 
 var audio = null;
 
-chrome.runtime.onStartup.addListener(function() {
+var onStartup = function() {
 	audio = addAudio();
   chrome.storage.local.get("registered", function(result) {
     if (result["registered"]){
@@ -51,6 +51,11 @@ chrome.runtime.onStartup.addListener(function() {
         chrome.gcm.register(senderIds, registerCallback);
     });
   });
+};
+
+chrome.runtime.onStartup.addListener(onStartup);
+chrome.runtime.onInstalled.addListener(function(details) {
+	onStartup();
 });
 
 chrome.gcm.onMessage.addListener(function(message){
