@@ -6,9 +6,8 @@ function registerCallback(registrationId) {
     alert('Runtime Error:' + chrome.runtime.lastError.message);
     return;
   }
-  sendRegistrationId(registrationId, function(succeed) {
-    if (succeed)
-      chrome.storage.local.set({registered: true});
+  sendRegistrationId(registrationId, function(obj, s, xhr) {
+    chrome.storage.local.set({registered: true});
   });
 }
 
