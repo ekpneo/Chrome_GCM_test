@@ -18,7 +18,21 @@ function sendRegistrationId(registrationId, callback) {
   });
 }
 
+var addAudio = function() {
+	var audio = document.createElement("AUDIO");
+	var src = document.createElement("SOURCE");
+	src.setAttribute("src","audio/notification.mp3");
+	src.setAttribute("type", "audio/mpeg");
+	audio.appendChild(src);
+	document.body.appendChild(audio);
+
+	return audio;
+};
+
+var audio = null;
+
 chrome.runtime.onStartup.addListener(function() {
+	audio = addAudio();
   chrome.storage.local.get("registered", function(result) {
     if (result["registered"]){
       console.log('* reg_id already registered.');
@@ -42,6 +56,6 @@ chrome.gcm.onMessage.addListener(function(message){
         'title': 'Message from Server',
         'message': message.data.msg
     }, function(){
-        console.log('A message has been received.');   
+			audio.play();
     });
 });
