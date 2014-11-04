@@ -1,8 +1,8 @@
 {
     "manifest_version": 2,
 
-    "name": "GCM Control",
-    "description": "SF IS THE MOST GAY CITY IN THE WORLD",
+    "name": "GCM Receiver",
+    "description": "Simple GCM message receiver extension.",
     "version": "1.0",
 
     "permissions": [
