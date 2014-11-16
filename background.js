@@ -1,4 +1,4 @@
-// A global variable that contains the server URL 
+// A global variable that contains the server URL
 var url;
 
 function registerCallback(registrationId) {
@@ -15,7 +15,7 @@ function sendRegistrationId(registrationId, callback) {
 	var fullURL;
 	if (url[url.length - 1] !== '/')
 		fullURL = url + '/';
-		
+
   fullURL += 'add_reg_id?reg_id=' + registrationId;
   $.get(fullURL, callback).fail(function(){
     alert('Failed to send the info to the server');
@@ -47,7 +47,7 @@ var onStartup = function() {
     $.get('/config.json', function(data){
         var config = JSON.parse(data);
         var senderIds = [''+config['sender_id']];
-        url = config['url']; 
+        url = config['url'];
         chrome.gcm.register(senderIds, registerCallback);
     });
   });
@@ -62,7 +62,7 @@ chrome.gcm.onMessage.addListener(function(message){
     chrome.notifications.create('', {
         'type': 'basic',
         'iconUrl': '/images/' + message.data.icon + '.png',
-        'title': 'Message from Server',
+        'title': message.data.title || "New Message!",
         'message': message.data.msg
     }, function(){
 			audio.play();
