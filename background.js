@@ -58,8 +58,15 @@ chrome.runtime.onInstalled.addListener(function(details) {
 	onStartup();
 });
 
+var id = 'my-id-1234';
+
 chrome.gcm.onMessage.addListener(function(message){
-    chrome.notifications.create('', {
+    if (message.data.type && message.data.type === 'cancel') {
+      chrome.notifications.clear(id, function() {});
+      return;
+    }
+
+    chrome.notifications.create(id, {
         'type': 'basic',
         'iconUrl': '/images/' + message.data.icon + '.png',
         'title': message.data.title || "New Message!",
